@@ -1,27 +1,30 @@
 <template>
-  <!-- Vue3组件中的模板结构可以没有根标签 -->
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="app">
+    <h3>我是App组件</h3>
+    <Suspense>
+      <template v-slot:default>
+        <Child/>
+      </template>
+      <template v-slot:fallback>
+        <h3>稍等，加载中...</h3>>
+      </template>
+    </Suspense>
+  </div>
 </template>
 
 <script>
-  import HelloWorld from './components/HelloWorld.vue'
-
+  import {defineAsyncComponent} from 'vue' 
+  // import Child from './components/Child' //静态引入
+  const Child = defineAsyncComponent(()=>import('./components/Child'))//动态（异步）引入
   export default {
-    name: 'App',
-    components: {
-      HelloWorld
-    }
+    name:'App',
+    components:{Child},
   }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  .app{
+    background-color: gray;
+    padding: 10px;
+  }
 </style>
